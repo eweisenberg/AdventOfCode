@@ -46,3 +46,4 @@ bin/
 /.idea/codeStyles/codeStyleConfig.xml
 /.idea/kotlinc.xml
 /.idea/codeStyles/Project.xml
+/src/main/resources/
