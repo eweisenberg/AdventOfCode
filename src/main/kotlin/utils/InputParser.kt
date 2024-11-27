@@ -11,6 +11,10 @@ object InputParser {
         return File(filename).readLines().map { it.toCharArray().toList() }
     }
 
+    fun linesToIntList(filename: String, delimeter: String): List<List<Int>> {
+        return File(filename).readLines().map { it.split(delimeter).map(String::toInt) }
+    }
+
     fun oneString(filename: String): String {
         return File(filename).readText()
     }
