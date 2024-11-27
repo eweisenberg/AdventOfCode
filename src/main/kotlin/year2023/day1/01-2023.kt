@@ -3,7 +3,7 @@ package year2023.day1
 import utils.InputParser
 
 fun main() {
-    val input = InputParser.parseLinesToStrings("src/main/resources/input2023/input01.txt")
+    val input = InputParser.linesToStrings("src/main/resources/input2023/input01.txt")
     println("Part 1:")
     println(part1(input))
     println("Part 2:")

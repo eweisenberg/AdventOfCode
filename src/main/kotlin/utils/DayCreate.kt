@@ -29,7 +29,7 @@ fun main() {
         import utils.InputParser
 
         fun main() {
-            val input = InputParser.parseLinesToStrings("src/main/resources/input$year/input${String.format("%02d", day)}.txt")
+            val input = InputParser.linesToStrings("src/main/resources/input$year/input${String.format("%02d", day)}.txt")
             println("Part 1:")
             println(part1(input))
             println("Part 2:")
