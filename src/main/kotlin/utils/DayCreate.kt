@@ -31,9 +31,9 @@ fun main() {
         fun main() {
             val input = InputParser.parseLinesToStrings("src/main/resources/input$year/input${String.format("%02d", day)}.txt")
             println("Part 1:")
-            println(part1(input));
+            println(part1(input))
             println("Part 2:")
-            println(part2(input));
+            println(part2(input))
         }
 
         fun part1(input: List<String>): String {
