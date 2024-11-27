@@ -10,4 +10,8 @@ object InputParser {
     fun linesToChar2D(filename: String): List<List<Char>> {
         return File(filename).readLines().map { it.toCharArray().toList() }
     }
+
+    fun oneString(filename: String): String {
+        return File(filename).readText()
+    }
 }
