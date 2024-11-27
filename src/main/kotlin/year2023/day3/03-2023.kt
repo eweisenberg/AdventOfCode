@@ -44,7 +44,36 @@ fun part1(input: List<List<Char>>): String {
 }
 
 fun part2(input: List<List<Char>>): String {
-    return ""
+    val asteriskPoints = mutableSetOf<Pair<Int, Int>>()
+    val partNumbers = mutableListOf<PartNumber>()
+    for ((rowIndex, row) in input.withIndex()) {
+        var colIndex = 0
+        while (colIndex < row.size) {
+            val char = input[rowIndex][colIndex]
+            if (char == '*') {
+                asteriskPoints.add(Pair(rowIndex, colIndex))
+            } else if (char.isDigit()) {
+                val startPoint = Pair(rowIndex, colIndex)
+                var endCol = colIndex
+                while (endCol < row.size && row[endCol].isDigit()) {
+                    endCol++
+                }
+                val endPoint = Pair(rowIndex, endCol - 1)
+                partNumbers.add(PartNumber(startPoint, endPoint))
+                colIndex = endPoint.second
+            }
+            colIndex++
+        }
+    }
+
+    return asteriskPoints
+        .map { touchingPartNumbers(partNumbers, it) }
+        .filter { it.size == 2 }
+        .sumOf {
+            val (a, b) = it.toList()
+            a.getNumber(input) * b.getNumber(input)
+        }
+        .toString()
 }
 
 fun isSymbol(char: Char): Boolean {
@@ -62,9 +91,22 @@ fun isTouchingSymbol(schematic: List<List<Char>>, point: Pair<Int, Int>): Boolea
     return false
 }
 
-class PartNumber(startPoint: Pair<Int, Int>, endPoint: Pair<Int, Int>) {
-    val startPoint: Pair<Int, Int> = startPoint
-    val endPoint: Pair<Int, Int> = endPoint
+fun touchingPartNumbers(partNumbers: List<PartNumber>, point: Pair<Int, Int>): Set<PartNumber> {
+    val touchingPartNumbers = mutableSetOf<PartNumber>()
+    for (row in (point.first - 1)..(point.first + 1)) {
+        for (col in (point.second - 1)..(point.second + 1)) {
+            val curPoint = Pair(row, col)
+            for (partNumber in partNumbers) {
+                if (partNumber.startPoint == curPoint || partNumber.endPoint == curPoint) {
+                    touchingPartNumbers.add(partNumber)
+                }
+            }
+        }
+    }
+    return touchingPartNumbers
+}
+
+class PartNumber(val startPoint: Pair<Int, Int>, val endPoint: Pair<Int, Int>) {
 
     fun getNumber(schematic: List<List<Char>>): Int {
         val row = startPoint.first
