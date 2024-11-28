@@ -11,13 +11,13 @@ fun main() {
 }
 
 fun part1(input: List<String>): String {
-    val badStrings = listOf<String>("ab", "cd", "pq", "xy")
+    val badStrings = listOf("ab", "cd", "pq", "xy")
     return input.count { countVowels(it) >= 3 && containsDoubleLetter(it) && notContainsStrings(it, badStrings) }
         .toString()
 }
 
 fun part2(input: List<String>): String {
-    return ""
+    return input.count { containsTwoPairs(it) && containsRepeatWithOneLetterBetween(it) }.toString()
 }
 
 fun countVowels(s: String): Int {
@@ -40,8 +40,22 @@ fun notContainsStrings(s: String, strings: List<String>): Boolean {
 }
 
 fun containsTwoPairs(s: String): Boolean {
-    for (i in s.indices) {
+    for (i in 0..(s.length - 2)) {
+        val pair = s.substring(i, i + 2)
+        for (j in (i + 2)..(s.length - 2)) {
+            if (s.substring(j, j + 2) == pair) {
+                return true
+            }
+        }
+    }
+    return false
+}
 
+fun containsRepeatWithOneLetterBetween(s: String): Boolean {
+    for (i in 1..(s.length - 2)) {
+        if (s[i - 1] == s[i + 1]) {
+            return true
+        }
     }
     return false
 }
