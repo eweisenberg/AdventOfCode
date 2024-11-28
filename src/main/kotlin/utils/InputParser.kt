@@ -18,4 +18,8 @@ object InputParser {
     fun oneString(filename: String): String {
         return File(filename).readText()
     }
+
+    fun oneCharList(filename: String): List<Char> {
+        return File(filename).readText().toCharArray().toList()
+    }
 }

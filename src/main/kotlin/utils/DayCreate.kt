@@ -45,17 +45,3 @@ fun main() {
         }
     """.trimIndent())
 }
-
-//fun main() {
-//    val input
-//    println("Part 1:")
-//    println(part1())
-//}
-//
-//fun part1(input: List<String>): String {
-//    return ""
-//}
-//
-//fun part2(input: List<String>): String {
-//    return ""
-//}
