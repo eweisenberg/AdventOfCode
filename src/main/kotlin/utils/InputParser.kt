@@ -15,6 +15,13 @@ object InputParser {
         return File(filename).readLines().map { it.split(delimeter).map(String::toInt) }
     }
 
+    fun linesToIntPairs(filename: String, delimeter: String): List<Pair<Int, Int>> {
+        return File(filename).readLines().map {
+            val numbers: List<Int> = it.split(delimeter).map(String::toInt)
+            Pair(numbers[0], numbers[1])
+        }
+    }
+
     fun oneString(filename: String): String {
         return File(filename).readText()
     }
