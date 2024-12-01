@@ -11,13 +11,13 @@ object InputParser {
         return File(filename).readLines().map { it.toCharArray().toList() }
     }
 
-    fun linesToIntList(filename: String, delimeter: String): List<List<Int>> {
-        return File(filename).readLines().map { it.split(delimeter).map(String::toInt) }
+    fun linesToInt2D(filename: String, delimiter: String): List<List<Int>> {
+        return File(filename).readLines().map { it.split(delimiter).map(String::toInt) }
     }
 
-    fun linesToIntPairs(filename: String, delimeter: String): List<Pair<Int, Int>> {
+    fun linesToIntPairs(filename: String, delimiter: String): List<Pair<Int, Int>> {
         return File(filename).readLines().map {
-            val numbers: List<Int> = it.split(delimeter).map(String::toInt)
+            val numbers: List<Int> = it.split(delimiter).map(String::toInt)
             Pair(numbers[0], numbers[1])
         }
     }

@@ -5,7 +5,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 fun main() {
-    val input = InputParser.linesToIntList("src/main/resources/input2015/input02.txt", "x")
+    val input = InputParser.linesToInt2D("src/main/resources/input2015/input02.txt", "x")
     println("Part 1:")
     println(part1(input))
     println("Part 2:")
