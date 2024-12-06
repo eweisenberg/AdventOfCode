@@ -55,7 +55,7 @@ fun part2(input: List<List<Char>>): String {
     }
 
     val guard = Guard(guardStart, Direction.UP)
-    var guardVisitsWithDir: MutableSet<PositionDirection>
+    var turnPosAndDirs: MutableSet<PositionDirection>
     var count = 0
     for (r in 0..<rows) {
         cellLoop@ for (c in 0..<cols) {
@@ -65,19 +65,21 @@ fun part2(input: List<List<Char>>): String {
             obstructions.add(Pair(r, c))
             guard.pos = guardStart
             guard.dir = Direction.UP
-            guardVisitsWithDir = mutableSetOf()
+            turnPosAndDirs = mutableSetOf()
             while (inBounds(guard.pos, rows, cols)) {
-                guardVisitsWithDir.add(PositionDirection(guard.pos, guard.dir))
                 var nextPos = guard.nextPos()
                 while (nextPos in obstructions) {
                     guard.turnRight()
                     nextPos = guard.nextPos()
+                    if (PositionDirection(guard.pos, guard.dir) in turnPosAndDirs) {
+                        count++
+                        obstructions.remove(Pair(r, c))
+                        continue@cellLoop
+                    }
+                    turnPosAndDirs.add(PositionDirection(guard.pos, guard.dir))
+
                 }
-                if (PositionDirection(nextPos, guard.dir) in guardVisitsWithDir) {
-                    count++
-                    obstructions.remove(Pair(r, c))
-                    continue@cellLoop
-                }
+
                 guard.pos = nextPos
             }
             obstructions.remove(Pair(r, c))
