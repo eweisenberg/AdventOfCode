@@ -29,7 +29,7 @@ fun part2(input: List<Pair<String, String>>): String {
     return equations.filter { it.isPossibleWithConcatenation() }.sumOf { it.testValue }.toString()
 }
 
-class Equation(val testValue: Long, val nums: List<Long>) {
+class Equation(val testValue: Long, private val nums: List<Long>) {
     fun isPossible(): Boolean {
         for (mask in 0..<(2.0.pow(nums.size - 1).toInt())) {
             // 0 = add, 1 = multiply
@@ -58,7 +58,7 @@ class Equation(val testValue: Long, val nums: List<Long>) {
                 when (modifiedMask % 3) {
                     0 -> result += nums[i]
                     1 -> result *= nums[i]
-                    2 -> result = (result.toString() + nums[i].toString()).toLong()
+                    2 -> result = ("$result${nums[i]}").toLong()
                 }
                 modifiedMask /= 3
             }
