@@ -36,4 +36,8 @@ object InputParser {
     fun oneCharList(filename: String): List<Char> {
         return File(filename).readText().toCharArray().toList()
     }
+
+    fun oneIntList(filename: String): List<Int> {
+        return oneCharList(filename).map { it - '0' }
+    }
 }
