@@ -3,7 +3,7 @@ package year2024.day9
 import utils.InputParser
 
 fun main() {
-    val input = InputParser.oneIntList("src/main/resources/input2024/input09.txt")
+    val input = InputParser.oneIntListDigits("src/main/resources/input2024/input09.txt")
     println("Part 1:")
     println(part1(input))
     println("Part 2:")

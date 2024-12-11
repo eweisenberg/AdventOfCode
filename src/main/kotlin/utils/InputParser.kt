@@ -37,7 +37,11 @@ object InputParser {
         return File(filename).readText().toCharArray().toList()
     }
 
-    fun oneIntList(filename: String): List<Int> {
+    fun oneIntListDigits(filename: String): List<Int> {
         return oneCharList(filename).map { it - '0' }
+    }
+
+    fun oneLongList(filename: String, delimiter: String): List<Long> {
+        return File(filename).readText().split(delimiter).map(String::toLong)
     }
 }
