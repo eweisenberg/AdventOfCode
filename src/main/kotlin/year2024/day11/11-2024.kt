@@ -46,7 +46,7 @@ fun part1(input: List<Long>): String {
 fun part2(input: List<Long>): String {
     var stonesCount = mutableMapOf<Long, Long>()
     input.forEach { stonesCount[it] = stonesCount.getOrDefault(it, 0) + 1 }
-    for (blinks in 1..200) {
+    for (blinks in 1..75) {
         stonesCount = updateAfterBlink(stonesCount)
     }
     return stonesCount.values.sum().toString()
