@@ -12,12 +12,12 @@ fun main() {
 
 fun part1(input: List<List<Char>>): String {
     val regions = getRegions(input)
-
     return regions.sumOf { it.area() * it.perimeter(input) }.toString()
 }
 
 fun part2(input: List<List<Char>>): String {
-    return ""
+    val regions = getRegions(input)
+    return regions.sumOf { it.area() * it.numCorners(input) }.toString()
 }
 
 fun getRegions(input: List<List<Char>>): MutableSet<Region> {
@@ -61,11 +61,47 @@ fun numBorderEdges(pos: Position, input: List<List<Char>>): Long {
     var count = 0
     for (offset in offsets) {
         val offsetPos = pos + offset
-        if (!inBounds(offsetPos, input) || input[offsetPos.x][offsetPos.y] != type) {
+        if (!offsetMatchesType(offsetPos, input, type)) {
             count++
         }
     }
     return count.toLong()
+}
+
+fun numTouchingBorderEdges(pos: Position, input: List<List<Char>>): Long {
+    val type = input[pos.x][pos.y]
+    val cornerOffsets = listOf(
+        CornerOffset(Position(1, 0), Position(0, 1), Position(1, 1)), // Down right
+        CornerOffset(Position(1, 0), Position(0, -1), Position(1, -1)), // Down left
+        CornerOffset(Position(-1, 0), Position(0, 1), Position(-1, 1)), // Up right
+        CornerOffset(Position(-1, 0), Position(0, -1), Position(-1, -1)) // Up left
+    )
+    var count = 0
+    for (cornerOffset in cornerOffsets) {
+        val corner = CornerOffset(pos + cornerOffset.adj1, pos + cornerOffset.adj2, pos + cornerOffset.diag)
+        if (isOutsideCorner(corner, input, type) || isInsideCorner(corner, input, type)) {
+            count++
+        }
+    }
+    return count.toLong()
+}
+
+fun isOutsideCorner(
+    corner: CornerOffset,
+    input: List<List<Char>>,
+    type: Char
+) = !offsetMatchesType(corner.adj1, input, type) && !offsetMatchesType(corner.adj2, input, type)
+
+fun isInsideCorner(
+    corner: CornerOffset,
+    input: List<List<Char>>,
+    type: Char
+) = offsetMatchesType(corner.adj1, input, type) &&
+        offsetMatchesType(corner.adj2, input, type) &&
+        !offsetMatchesType(corner.diag, input, type)
+
+fun offsetMatchesType(offsetPos: Position, input: List<List<Char>>, type: Char): Boolean {
+    return inBounds(offsetPos, input) && input[offsetPos.x][offsetPos.y] == type
 }
 
 fun inBounds(pos: Position, input: List<List<Char>>): Boolean {
@@ -119,7 +155,13 @@ class Region(val type: Char, val plots: MutableSet<Position>) {
         return plots.sumOf { numBorderEdges(it, input) }
     }
 
+    fun numCorners(input: List<List<Char>>): Long {
+        return plots.sumOf { numTouchingBorderEdges(it, input) }
+    }
+
     operator fun plus(other: Region): Region {
         return Region(type, (plots + other.plots).toMutableSet())
     }
 }
+
+class CornerOffset(val adj1: Position, val adj2: Position, val diag: Position)
