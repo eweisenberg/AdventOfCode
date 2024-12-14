@@ -17,10 +17,26 @@ fun part1(input: List<String>): String {
     robots.map { it.getPositionAfterSeconds(100, areaSize) }
         .forEach { finalPositions[it] = finalPositions.getOrDefault(it, 0) + 1 }
 
-    return safetyFactor(finalPositions, areaSize).toString() // 102155040 too low
+    return safetyFactor(finalPositions, areaSize).toString()
 }
 
 fun part2(input: List<String>): String {
+    val areaSize = Vector(101, 103)
+    val robots = getRobots(input)
+    var minSafetyFactor = Int.MAX_VALUE
+    for (seconds in 1..10000) {
+        val finalPositions = mutableMapOf<Vector, Int>()
+        robots.map { it.getPositionAfterSeconds(seconds, areaSize) }
+            .forEach { finalPositions[it] = finalPositions.getOrDefault(it, 0) + 1 }
+        val safetyFactor = safetyFactor(finalPositions, areaSize)
+        if (safetyFactor < minSafetyFactor) {
+            minSafetyFactor = safetyFactor
+            println("Seconds elapsed: $seconds")
+            printArea(finalPositions, areaSize)
+        }
+    }
+
+
     return ""
 }
 
@@ -54,6 +70,19 @@ fun safetyFactor(positionCounts: Map<Vector, Int>, areaSize: Vector): Int {
     return quadrantCounts[0] * quadrantCounts[1] * quadrantCounts[2] * quadrantCounts[3]
 }
 
+fun printArea(finalPositions: Map<Vector, Int>, areaSize: Vector) {
+    for (y in 0..<areaSize.y) {
+        for (x in 0..<areaSize.x) {
+            if (finalPositions.containsKey(Vector(x, y))) {
+                print("#")
+            } else {
+                print(" ")
+            }
+        }
+        println()
+    }
+}
+
 class Vector(val x: Int, val y: Int) {
     operator fun plus(v: Vector) = Vector(x + v.x, y + v.y)
 
@@ -84,7 +113,7 @@ class Vector(val x: Int, val y: Int) {
     }
 }
 
-class Robot(val position: Vector, val velocity: Vector) {
+class Robot(private val position: Vector, private val velocity: Vector) {
     fun getPositionAfterSeconds(seconds: Int, areaSize: Vector) =
         (((position + velocity * seconds) % areaSize) + areaSize) % areaSize
 
