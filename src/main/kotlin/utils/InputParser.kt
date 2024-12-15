@@ -30,11 +30,11 @@ object InputParser {
     }
 
     fun splitStrings(filename: String, delimiter: String): List<String> {
-        return File(filename).readText().split(delimiter).map(String::toString)
+        return File(filename).readText().split(delimiter)
     }
 
     fun splitStrings2D(filename: String, delimiter1: String, delimiter2: String): List<List<String>> {
-        return splitStrings(filename, delimiter1).map { it.split(delimiter2).map(String::toString) }
+        return splitStrings(filename, delimiter1).map { it.split(delimiter2) }
     }
 
     fun oneString(filename: String): String {
